@@ -69,8 +69,15 @@ function launchApp() {
     document.getElementById('prof-user').textContent = userData.username || "Miner";
     document.getElementById('prof-phone').textContent = userData.phone || "0500000000";
 
-    // Set the unique referral code for this specific user
-    document.getElementById('ref-code').textContent = userData.refCode || "GH-7721";
+    // --- FIXED REFERRAL GENERATION ---
+    const userCode = userData.refCode || "GH-7721";
+    const fullLink = `https://eerrybanx-ctrl.github.io/bit-miner/?ref=${userCode}`;
+    
+    const refElement = document.getElementById('ref-code');
+    if (refElement) {
+        refElement.textContent = fullLink;
+    }
+    // ----------------------------------
 
     renderPlans();
     updateActiveList();
@@ -409,3 +416,24 @@ function loadDepositHistory() {
         list.innerHTML = html;
     });
 }
+
+// --- NEW CLIPBOARD COPY FUNCTION ---
+function copyReferral() {
+    const linkText = document.getElementById('ref-code').textContent;
+    const copyBtn = document.querySelector('.copy-btn');
+
+    navigator.clipboard.writeText(linkText).then(() => {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = "Copied! ✅";
+        copyBtn.style.background = "var(--success)";
+        
+        setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            copyBtn.style.background = "";
+        }, 2000);
+    }).catch(err => {
+        console.error('Copy failed', err);
+        alert("Select the link and copy manually.");
+    });
+}
+r
