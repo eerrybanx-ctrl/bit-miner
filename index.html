@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+  
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BitMiner Ghana – Professional cloud cryptocurrency mining platform. Real daily returns powered by Telecel infrastructure. Invest today and start earning.">
+    <meta name="keywords" content="bitcoin mining Ghana, crypto mining Ghana, cloud mining, daily returns, Telecel mining, investment Ghana">
+    <meta property="og:title" content="BitMiner Ghana | Professional Crypto Mining Platform">
+    <meta property="og:description" content="Start mining Bitcoin today with real Ghana-based cloud infrastructure. Daily payouts. Secure &amp; transparent.">
+    <meta property="og:image" content="https://picsum.photos/id/1015/1200/600">
+    <title>BitMiner Ghana | Professional Crypto Mining Platform</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f59e0b'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="auth-section">
+        <div id="signup-box" class="auth-container">
+            <div class="auth-logo">⛏️</div>
+            <h2>Create Professional Account</h2>
+            <input type="text" id="reg-user" placeholder="Username" autocomplete="username">
+            <input type="tel" id="reg-phone" placeholder="Phone Number (050xxxxxxxx)" autocomplete="tel">
+            <input type="password" id="reg-pass" placeholder="Create Password" autocomplete="new-password">
+            <input type="password" id="reg-pass-confirm" placeholder="Confirm Password" autocomplete="new-password">
+            <input type="text" id="reg-invite" placeholder="Invitation Code (Optional)">
+            <button class="btn btn-primary" onclick="handleSignup()">Create Account</button>
+            <p style="text-align:center; margin-top:22px; font-size:0.95rem; color:#94a3b8;" onclick="toggleAuth()">
+                Already a miner? <strong style="color:var(--primary); cursor:pointer;">Log in here</strong>
+            </p>
+        </div>
+
+        <div id="login-box" class="auth-container hidden">
+            <div class="auth-logo">⛏️</div>
+            <h2>Welcome Back to BitMiner</h2>
+            <input type="text" id="login-id" placeholder="Username or Phone">
+            <input type="password" id="login-pass" placeholder="Password">
+            <button class="btn btn-primary" onclick="handleLogin()">Secure Login</button>
+            <p style="text-align:center; margin-top:22px; font-size:0.95rem; color:#94a3b8;" onclick="toggleAuth()">
+                New miner? <strong style="color:var(--primary); cursor:pointer;">Create account</strong>
+            </p>
+        </div>
+    </div>
+
+    <div id="main-app" class="hidden">
+
+        <header id="top-header">
+            <div class="logo">BitMiner Ghana</div>
+            <div style="display:flex; align-items:center; gap:18px;">
+                <div style="text-align:right;">
+                    <small style="color:#94a3b8; font-size:0.82rem;">Wallet Balance</small>
+                    <div id="header-bal" style="font-size:1.45rem; color:var(--success); font-weight:700;">₵0.00</div>
+                </div>
+                <div onclick="showSection('profile', document.querySelector('.nav-item:last-child'))" style="font-size:2.1rem; cursor:pointer;">👤</div>
+            </div>
+        </header>
+
+        <section id="home" class="section active">
+            <div class="mining-banner">
+                <img src="https://picsum.photos/id/1015/1200/600" alt="Real Bitcoin ASIC Mining Farm – Telecel Powered Rigs in Ghana">
+                <div class="overlay">
+                    <h3 style="font-size:1.35rem; margin-bottom:4px;">Your Mining Farm is Live</h3>
+                    <p style="font-size:0.95rem; opacity:0.9;">Real-time hash rate • Powered by Telecel Cloud Infrastructure in Ghana</p>
+                    <div style="margin-top:12px; display:flex; align-items:center; gap:8px;">
+                        <span class="badge" style="background:#10b981; padding:2px 6px; border-radius:4px; font-size:0.8rem;">ONLINE</span>
+                        <span id="live-hashrate" class="live-number" style="font-size:1.35rem; font-weight:700;">3.84 PH/s</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trust-bar">
+                ✅ Trusted by 1,284+ Ghanaian Miners • Powered by Telecel Cloud • Secured &amp; Licensed
+            </div>
+
+            <div class="card">
+                <p style="margin-bottom:10px; color:#94a3b8;">Welcome back, <span id="display-name" style="color:var(--text); font-weight:600;"></span></p>
+                <div class="balance-big">₵<span id="bal-amount">0.00</span></div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:0.98rem;">
+                    <span>Referral Commission</span>
+                    <span style="color:var(--success)">₵<span id="ref-comm">0.00</span></span>
+                </div>
+            </div>
+
+            <h3 style="margin:1.8rem 0 1rem; font-size:1.15rem;">Live Mining Stats</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div style="font-size:1.8rem; color:var(--success);" id="stat-miners">1,284</div>
+                    <small style="color:#94a3b8;">Active Miners</small>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size:1.8rem; color:var(--success);" id="stat-hash">3.84</div>
+                    <small style="color:#94a3b8;">PH/s Global Hashrate</small>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size:1.8rem; color:var(--success);" id="stat-today">₵48,291</div>
+                    <small style="color:#94a3b8;">Mined Today</small>
+                </div>
+                <div class="stat-card">
+                    <div style="font-size:1.8rem; color:var(--success);">24</div>
+                    <small style="color:#94a3b8;">New Rigs Today</small>
+                </div>
+            </div>
+
+            <h3 style="margin:1.8rem 0 1rem; font-size:1.15rem;">Recommended Investment Plans</h3>
+            <div id="home-plans-list"></div>
+        </section>
+
+        <section id="my-investments" class="section">
+            <h2 style="margin-bottom:1rem; font-size:1.45rem;">Your Active Mining Rigs</h2>
+            <div id="active-list"></div>
+            <button class="btn btn-outline" onclick="simulateDaily()" style="margin-top:25px;">
+                ⏳ Claim Today's Mining Rewards
+            </button>
+        </section>
+
+        <section id="plans" class="section">
+            <h2 style="margin-bottom:1rem; font-size:1.45rem;">All Mining Plans</h2>
+            
+            <div class="card">
+                <h4 style="margin-bottom:14px;">How BitMiner Works</h4>
+                <p style="font-size:0.96rem; line-height:1.65;">
+                    BitMiner operates a state-of-the-art mining farm using enterprise Telecel Cloud servers in Ghana. 
+                    Every investment directly powers real ASIC miners and GPU rigs. Daily Bitcoin rewards are automatically credited.
+                </p>
+                <div style="margin-top:18px; display:flex; gap:12px; font-size:0.9rem;">
+                    <div style="flex:1; background:#052e16; padding:12px; border-radius:12px; text-align:center;">
+                        <strong style="color:var(--success);">🔥 Live Hashrate</strong><br>3.84 PH/s
+                    </div>
+                    <div style="flex:1; background:#052e16; padding:12px; border-radius:12px; text-align:center;">
+                        <strong style="color:var(--success);">⛏️ Active Rigs</strong><br>1,284
+                    </div>
+                </div>
+            </div>
+
+            <div id="market-plans"></div>
+
+            <div class="card disclaimer" style="margin-top:2rem;">
+                <strong>Professional Disclaimer</strong><br>
+                This is a virtual demonstration platform. Cryptocurrency mining involves risk. Returns are simulated for educational purposes. 
+                No real funds are processed. Always invest only what you can afford to lose. BitMiner Ghana © 2026.
+            </div>
+        </section>
+
+        <section id="admin" class="section">
+            <h2 style="margin-bottom:1rem; font-size:1.45rem;">Deposit History</h2>
+            <div id="pending-list">
+                <p style="color:#94a3b8; text-align:center; padding:2rem;">Loading history...</p>
+            </div>
+        </section>
+
+        <section id="profile" class="section">
+            <div class="profile-header">
+                <div class="profile-avatar">👤</div>
+                <h3 id="prof-user" style="font-size:1.4rem;"></h3>
+                <p id="prof-phone" style="color:#94a3b8; margin-top:6px;"></p>
+            </div>
+
+            <div style="display:flex; gap:14px; margin-bottom:28px; padding:0 12px;">
+                <button class="btn btn-primary" onclick="showRecharge()">Recharge Wallet</button>
+                <button class="btn btn-outline" onclick="showWithdraw()">Withdraw Earnings</button>
+            </div>
+
+            <div class="card">
+                <p style="margin-bottom:12px;"><strong>Your Referral Link</strong></p>
+                <p style="background:#0f172a; padding:14px; border-radius:14px; font-family:monospace; font-size:0.97rem; word-break:break-all;">
+                    https://bitminer.gh/ref?id=<span id="ref-code">GH-7721</span>
+                </p>
+                <p style="margin-top:18px; font-size:0.96rem;">
+                    Customer Support • <strong style="color:var(--primary)">0530024629</strong><br>
+                    <span style="font-size:0.85rem;">Mon–Sat • 8:00 AM – 6:00 PM GMT</span>
+                </p>
+            </div>
+
+            <button onclick="logout()" class="btn btn-outline" style="color:var(--danger); border-color:var(--danger); margin-top:1rem;">
+                Logout Securely
+            </button>
+        </section>
+
+        <div id="recharge-screen" class="hidden">
+            <div class="recharge-header">
+                <h2>Recharge via MoMo</h2>
+                <button onclick="hideRecharge()" style="background:none; border:none; font-size:1.8rem; color:var(--text); cursor:pointer;">✕</button>
+            </div>
+            
+            <div class="card">
+                <p>Send funds to: <strong style="color:var(--primary); font-size:1.3rem;">053 002 4629</strong></p>
+                <p style="margin-top:12px; font-size:0.95rem; color:#94a3b8;">
+                    After sending, enter the exact amount and the Transaction ID you received via SMS.
+                </p>
+            </div>
+
+            <div class="recharge-form">
+                <input type="number" id="depositAmount" placeholder="Amount (GH₵)" style="margin-bottom:1rem;">
+                <input type="text" id="txID" placeholder="Transaction ID (from SMS)" style="margin-bottom:1rem;">
+                <button class="btn btn-primary" onclick="submitDeposit()">Submit Payment for Verification</button>
+            </div>
+
+            <p style="text-align:center; margin-top:2rem; font-size:0.85rem; color:#94a3b8;">
+                Your deposit will be credited instantly after admin verification.
+            </p>
+        </div>
+
+        <footer>
+            <p><strong>BitMiner Ghana © 2026</strong> | All Rights Reserved</p>
+            <p style="margin-top:8px; font-size:0.8rem;">This is a virtual demonstration platform. No real funds or cryptocurrency are processed.</p>
+            <p style="margin-top:12px;">Support: 0530024629 | <a href="#" style="color:var(--primary);">Privacy Policy</a> | <a href="#" style="color:var(--primary);">Terms of Service</a></p>
+        </footer>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="showSection('home', this)">🏠<br><span>Home</span></div>
+            <div class="nav-item" onclick="showSection('my-investments', this)">📈<br><span>Rigs</span></div>
+            <div class="nav-item" onclick="showSection('plans', this)">📋<br><span>Plans</span></div>
+            <div class="nav-item" onclick="showSection('admin', this)">📜<br><span>History</span></div>
+            <div class="nav-item" onclick="showSection('profile', this)">👤<br><span>Me</span></div>
+        </nav>
+    </div>
+
+    <div id="modal">
+        <div class="modal-content">
+            <h3 id="modal-title" style="color:var(--primary);"></h3>
+            <p id="modal-msg" style="margin:1.2rem 0 1.8rem; white-space:pre-line; font-size:1.02rem;"></p>
+            <button class="btn btn-primary" onclick="hideModal()" style="width:auto; min-width:140px; padding:14px 36px;">Got it</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
