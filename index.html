@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -187,25 +188,40 @@
 
         <div id="recharge-screen" class="hidden">
             <div class="recharge-header">
-                <h2>Recharge via MoMo</h2>
+                <h2>Recharge Wallet</h2>
                 <button onclick="hideRecharge()" style="background:none; border:none; font-size:1.8rem; color:var(--text); cursor:pointer;">✕</button>
             </div>
             
-            <div class="card">
-                <p>Send funds to: <strong style="color:var(--primary); font-size:1.3rem;">053 002 4629</strong></p>
-                <p style="margin-top:12px; font-size:0.95rem; color:#94a3b8;">
-                    After sending, enter the exact amount and the Transaction ID you received via SMS.
+            <div class="card" style="border-left-color: var(--primary); margin-bottom: 15px;">
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Step 1: Send Funds</h3>
+                <p style="font-size: 0.9rem; color: #94a3b8;">Send your investment amount to our official merchant line via Mobile Money:</p>
+                
+                <div style="background:#0f172a; padding:15px; border-radius:10px; margin: 15px 0; text-align: center; border: 1px solid #1e293b;">
+                    <span style="font-size: 0.8rem; color: #94a3b8;">Official Telecel / MoMo Line</span><br>
+                    <strong style="font-size:1.5rem; color:var(--primary); letter-spacing: 1px;">0530024629</strong>
+                </div>
+                
+                <button id="copy-merchant-btn" class="btn btn-outline" onclick="copyMerchantNumber(this)" style="width: 100%; margin-bottom: 10px; font-size: 0.9rem;">
+                    📋 Copy Phone Number
+                </button>
+                <p style="font-size:0.8rem; color:#94a3b8; text-align:center;">Name on account: <strong>BitMiner GH</strong></p>
+            </div>
+
+            <div class="card" style="border-left-color: var(--success);">
+                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Step 2: Verify Payment</h3>
+                <p style="font-size:0.85rem; color:#94a3b8; margin-bottom: 15px;">
+                    Enter the amount you sent and the Transaction ID from your SMS receipt.
                 </p>
+                
+                <div class="recharge-form">
+                    <input type="number" id="depositAmount" placeholder="Amount Sent (e.g., 150)" style="margin-bottom:1rem; width: 100%; box-sizing: border-box;">
+                    <input type="text" id="txID" placeholder="Txn ID from SMS (e.g., 234891029)" style="margin-bottom:1rem; width: 100%; box-sizing: border-box;">
+                    <button class="btn btn-primary" onclick="submitDeposit()" style="width: 100%;">Verify & Credit Account</button>
+                </div>
             </div>
-
-            <div class="recharge-form">
-                <input type="number" id="depositAmount" placeholder="Amount (GH₵)" style="margin-bottom:1rem;">
-                <input type="text" id="txID" placeholder="Transaction ID (from SMS)" style="margin-bottom:1rem;">
-                <button class="btn btn-primary" onclick="submitDeposit()">Submit Payment for Verification</button>
-            </div>
-
-            <p style="text-align:center; margin-top:2rem; font-size:0.85rem; color:#94a3b8;">
-                Your deposit will be credited instantly after admin verification.
+            
+            <p style="text-align:center; margin-top:1.5rem; font-size:0.8rem; color:#94a3b8; padding: 0 10px;">
+                Your deposit will be credited instantly once the Transaction ID is verified.
             </p>
         </div>
 
