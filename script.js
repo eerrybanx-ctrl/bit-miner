@@ -417,7 +417,6 @@ function loadDepositHistory() {
     });
 }
 
-// --- NEW CLIPBOARD COPY FUNCTION ---
 function copyReferral() {
     const linkText = document.getElementById('ref-code').textContent;
     const copyBtn = document.querySelector('.copy-btn');
@@ -436,4 +435,25 @@ function copyReferral() {
         alert("Select the link and copy manually.");
     });
 }
-r
+
+// --- NEW MERCHANT COPY FUNCTION ---
+function copyMerchantNumber(btn) {
+    const merchantNum = "0530024629";
+    navigator.clipboard.writeText(merchantNum).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Copied! ✅";
+        btn.style.background = "#10b981"; // Success green
+        btn.style.color = "white";
+        btn.style.borderColor = "#10b981";
+        
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = "";
+            btn.style.color = "";
+            btn.style.borderColor = "";
+        }, 2000);
+    }).catch(err => {
+        console.error('Copy failed', err);
+        alert("Please copy the number 0530024629 manually.");
+    });
+}
